@@ -9,7 +9,8 @@ let questionElement = document.getElementById("question");
 let choicesElement = document.getElementById("choices");
 let scoreText = document.getElementById("scoreText");
 
-
+let prevBtn = document.getElementById("prevBtn");
+let nextBtn = document.getElementById("nextBtn");
 let questions = [
   {
     question: "What does CPU stand for?",
@@ -70,6 +71,7 @@ let questions = [
 
 let currentQuestion = 0;
 let score = 0;
+let answered = [];
 
 startBtn.onclick = function() {
   startBox.style.display = "none";
@@ -82,16 +84,29 @@ restartBtn.onclick = function() {
   startBox.style.display = "block";
   currentQuestion = 0;
   score = 0;
+  answered = [];
 };
 
 function showQuestion() {
   choicesElement.innerHTML = "";
   questionElement.innerHTML = questions[currentQuestion].question;
+  nextBtn.disabled = true;
 
   for (let i = 0; i < questions[currentQuestion].options.length; i++) {
     let btn = document.createElement("button");
     btn.innerHTML = questions[currentQuestion].options[i];
     btn.className = "choiceBtn";
+
+    if (answered[currentQuestion] !== undefined) {
+      let correctIndex = questions[currentQuestion].answer;
+      if (i === answered[currentQuestion]) {
+        btn.style.background = (i === correctIndex ? "green" : "red");
+      }
+      if (i === correctIndex) btn.style.background = "green";
+      btn.disabled = true;
+      nextBtn.disabled = false;
+    }
+
     btn.onclick = function() {
       checkAnswer(i, btn);
     };
@@ -99,34 +114,46 @@ function showQuestion() {
   }
 }
 
+nextBtn.onclick = function() {
+  if (answered[currentQuestion] !== undefined) {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }
+};
+
+prevBtn.onclick = function() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion();
+  }
+};
+
 function checkAnswer(choiceIndex, btn) {
   let correctIndex = questions[currentQuestion].answer;
 
+  if (answered[currentQuestion] === undefined) {
+    if (choiceIndex === correctIndex) score++;
+  }
+  answered[currentQuestion] = choiceIndex;
+
   if (choiceIndex === correctIndex) {
-    score = score + 1;
     btn.style.background = "green";
   } else {
     btn.style.background = "red";
-    let choiceButtons = document.querySelectorAll(".choiceBtn");
+    let choiceButtons = document.getElementsByClassName("choiceBtn");
     choiceButtons[correctIndex].style.background = "green";
   }
 
-  let choiceButtons = document.querySelectorAll(".choiceBtn");
+  let choiceButtons = document.getElementsByClassName("choiceBtn");
   for (let j = 0; j < choiceButtons.length; j++) {
     choiceButtons[j].disabled = true;
   }
 
-  setTimeout(showNextQuestion, 500);
-}
-
-function showNextQuestion() {
-  currentQuestion = currentQuestion + 1;
-
-  if (currentQuestion < questions.length) {
-    showQuestion();
-  } else {
-    showResult();
-  }
+  nextBtn.disabled = false;
 }
 
 function showResult() {
