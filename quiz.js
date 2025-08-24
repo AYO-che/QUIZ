@@ -3,7 +3,8 @@ let quizBox = document.getElementById("quizBox");
 let resultBox = document.getElementById("resultBox");
 
 let startBtn = document.getElementById("startBtn");
-let restartBtn = document.getElementById("restartBtn");
+let restartBtn1 = document.getElementById("restartBtn1");
+let restartBtn2 = document.getElementById("restartBtn2");
 
 let questionElement = document.getElementById("question");
 let choicesElement = document.getElementById("choices");
@@ -11,6 +12,7 @@ let scoreText = document.getElementById("scoreText");
 
 let prevBtn = document.getElementById("prevBtn");
 let nextBtn = document.getElementById("nextBtn");
+
 let questions = [
   {
     question: "What does CPU stand for?",
@@ -79,13 +81,18 @@ startBtn.onclick = function() {
   showQuestion();
 };
 
-restartBtn.onclick = function() {
+restartBtn1.onclick = resetQuiz;
+restartBtn2.onclick = resetQuiz;
+
+function resetQuiz() {
+  quizBox.style.display = "block";
   resultBox.style.display = "none";
-  startBox.style.display = "block";
+  startBox.style.display = "none";
   currentQuestion = 0;
   score = 0;
   answered = [];
-};
+  showQuestion();
+}
 
 function showQuestion() {
   choicesElement.innerHTML = "";
