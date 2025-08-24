@@ -24,7 +24,7 @@ h1, h2 {
 }
 
 button {
-  background: #3b82f6;
+  background: #5400cf;
   color: #fff;
   border: none;
   padding: 12px 18px;
@@ -64,3 +64,4 @@ button:hover {
   background: #4338ca;
   box-shadow: 0 0 16px rgba(67, 56, 202, 0.6);
 }
+
