@@ -97,7 +97,7 @@ function resetQuiz() {
 function showQuestion() {
   choicesElement.innerHTML = "";
   questionElement.innerHTML = questions[currentQuestion].question;
-  nextBtn.disabled = true;
+
 
   for (let i = 0; i < questions[currentQuestion].options.length; i++) {
     let btn = document.createElement("button");
@@ -111,7 +111,6 @@ function showQuestion() {
       }
       if (i === correctIndex) btn.style.background = "green";
       btn.disabled = true;
-      nextBtn.disabled = false;
     }
 
     btn.onclick = function() {
@@ -122,7 +121,6 @@ function showQuestion() {
 }
 
 nextBtn.onclick = function() {
-  if (answered[currentQuestion] !== undefined) {
     currentQuestion++;
     if (currentQuestion < questions.length) {
       showQuestion();
@@ -159,8 +157,7 @@ function checkAnswer(choiceIndex, btn) {
   for (let j = 0; j < choiceButtons.length; j++) {
     choiceButtons[j].disabled = true;
   }
-
-  nextBtn.disabled = false;
+  
 }
 
 function showResult() {
@@ -168,3 +165,4 @@ function showResult() {
   resultBox.style.display = "block";
   scoreText.innerHTML = "You scored " + score + " out of " + questions.length;
 }
+
