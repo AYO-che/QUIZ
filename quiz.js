@@ -98,20 +98,29 @@ function showQuestion() {
   choicesElement.innerHTML = "";
   questionElement.innerHTML = questions[currentQuestion].question;
 
-
   for (let i = 0; i < questions[currentQuestion].options.length; i++) {
     let btn = document.createElement("button");
     btn.innerHTML = questions[currentQuestion].options[i];
     btn.className = "choiceBtn";
 
-    if (answered[currentQuestion] !== undefined) {
-      let correctIndex = questions[currentQuestion].answer;
-      if (i === answered[currentQuestion]) {
-        btn.style.background = (i === correctIndex ? "green" : "red");
-      }
-      if (i === correctIndex) btn.style.background = "green";
-      btn.disabled = true;
+  if (answered[currentQuestion] !== undefined) {
+  let correctIndex = questions[currentQuestion].answer;
+
+  if (i === answered[currentQuestion]) {
+    if (i === correctIndex) {
+      btn.style.background = "green";
+    } else {
+      btn.style.background = "red";
     }
+  }
+
+  if (i === correctIndex) {
+    btn.style.background = "green";
+  }
+
+  btn.disabled = true;
+
+}
 
     btn.onclick = function() {
       checkAnswer(i, btn);
@@ -165,4 +174,5 @@ function showResult() {
   resultBox.style.display = "block";
   scoreText.innerHTML = "You scored " + score + " out of " + questions.length;
 }
+
 
