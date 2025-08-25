@@ -128,7 +128,6 @@ function showQuestion() {
     choicesElement.appendChild(btn);
   }
 }
-
 nextBtn.onclick = function() {
     currentQuestion++;
     if (currentQuestion < questions.length) {
@@ -136,8 +135,9 @@ nextBtn.onclick = function() {
     } else {
       showResult();
     }
-  }
+  
 };
+
 
 prevBtn.onclick = function() {
   if (currentQuestion > 0) {
@@ -147,32 +147,33 @@ prevBtn.onclick = function() {
 };
 
 function checkAnswer(choiceIndex, btn) {
-  let correctIndex = questions[currentQuestion].answer;
+  let correct = questions[currentQuestion].answer;
 
   if (answered[currentQuestion] === undefined) {
-    if (choiceIndex === correctIndex) score++;
+    if (choiceIndex === correct) {
+      score++;
+    }
+    answered[currentQuestion] = choiceIndex;
   }
-  answered[currentQuestion] = choiceIndex;
 
-  if (choiceIndex === correctIndex) {
+  if (choiceIndex === correct) {
     btn.style.background = "green";
   } else {
     btn.style.background = "red";
-    let choiceButtons = document.getElementsByClassName("choiceBtn");
-    choiceButtons[correctIndex].style.background = "green";
+    let buttons = document.getElementsByClassName("choiceBtn");
+    buttons[correct].style.background = "green";
   }
+}
 
   let choiceButtons = document.getElementsByClassName("choiceBtn");
   for (let j = 0; j < choiceButtons.length; j++) {
     choiceButtons[j].disabled = true;
   }
-  
-}
+
+
 
 function showResult() {
   quizBox.style.display = "none";
   resultBox.style.display = "block";
   scoreText.innerHTML = "You scored " + score + " out of " + questions.length;
 }
-
-
